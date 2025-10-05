@@ -2,10 +2,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jundullha_lifestyle/controllers/auth_controller.dart';
 import 'package:jundullha_lifestyle/views/screens/authentication_screens/login_screens.dart';
 
-class RegisterScreen  extends StatelessWidget {
+class RegisterScreen  extends StatefulWidget {
+  @override
+  State<RegisterScreen>createState()=> _RegisterScreenState();
+}
+class _RegisterScreenState extends State<RegisterScreen>{
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final AuthConterller authConterller = AuthConterller();
+  late String email;
+  late String fullname;
+  late String password;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +68,9 @@ class RegisterScreen  extends StatelessWidget {
                      ),
               
                     TextFormField(
+                      onChanged: (value){
+                        email=value;
+                      },
                       validator:(value){
                         if(value!.isEmpty){
                           return 'enter your email';
@@ -108,6 +120,9 @@ class RegisterScreen  extends StatelessWidget {
                      ),
               
                     TextFormField(
+                      onChanged: (value){
+                        fullname=value;
+                      },
                       validator: (value){
                         if(value!.isEmpty) {
                           return"enter your full name";
@@ -148,6 +163,10 @@ class RegisterScreen  extends StatelessWidget {
                         height:20,
                         ),
                     TextFormField(
+                      onChanged: (value){
+                        password=value;
+
+                      },
                       validator: (value) {
                         if(value!.isEmpty){
                           return"enter your password";
@@ -188,12 +207,14 @@ class RegisterScreen  extends StatelessWidget {
                     SizedBox(height: 20,),
               
                     InkWell(
-                      onTap:(){
+                      onTap:()async{
                         if (_formkey.currentState!.validate()){
-                          print('correct');
-                        }
-                        else{
-                          print('failed');
+                           await authConterller.signUpUsers(
+                            context:context,
+                            email:email,
+                            fullname:fullname,
+                            password:password
+                            );
                         }
                       } ,
                       child: Container(
