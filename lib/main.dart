@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jundullha_lifestyle/views/screens/authentication_screens/login_screens.dart';
+//import 'package:jundullha_lifestyle/views/screens/authentication_screens/login_screens.dart';
+import 'package:jundullha_lifestyle/views/screens/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: LoginScreens(),
+      home: MainScreen(),
     );
   }
 }

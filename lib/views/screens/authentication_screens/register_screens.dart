@@ -11,10 +11,29 @@ class RegisterScreen  extends StatefulWidget {
 }
 class _RegisterScreenState extends State<RegisterScreen>{
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-  final AuthConterller authConterller = AuthConterller();
+  final AuthController authController = AuthController();
   late String email;
   late String fullname;
   late String password;
+  bool isLoading= false;
+
+  registerUser()async{
+    setState(() {
+      isLoading=true;
+    });
+      await authController.signUpUsers(
+        context:context,
+        email:email,
+        fullname:fullname,
+        password:password
+        )
+        .whenComplete((){
+          
+          setState(() {
+            isLoading=false;
+          });
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -209,12 +228,7 @@ class _RegisterScreenState extends State<RegisterScreen>{
                     InkWell(
                       onTap:()async{
                         if (_formkey.currentState!.validate()){
-                           await authConterller.signUpUsers(
-                            context:context,
-                            email:email,
-                            fullname:fullname,
-                            password:password
-                            );
+                         registerUser();
                         }
                       } ,
                       child: Container(
@@ -231,7 +245,7 @@ class _RegisterScreenState extends State<RegisterScreen>{
                          ),
                                   
                          child: Center(
-                           child: Text(
+                           child:isLoading? const CircularProgressIndicator(color: Colors.white,): Text(
                              'Sign Up',
                              style: GoogleFonts.getFont(
                                'Lato',
